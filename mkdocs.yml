@@ -1,0 +1,17 @@
+site_name: ℕ
+
+theme:
+  name: material
+  language: ja
+  palette:
+    primary: black
+
+extra:
+  search:
+    language: jp
+
+markdown_extensions:
+  - mdx_math
+extra_javascript:
+  - https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML
+  - javascripts/extra.js
