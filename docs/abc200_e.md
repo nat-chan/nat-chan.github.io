@@ -1,7 +1,7 @@
 # ABC200-E Patisserie ABC 2
 ###### tags: `atcoder`
 ## 問題文
-URL: [https://atcoder.jp/contests/abc200/tasks/abc200_e](https://atcoder.jp/contests/abc200/tasks/abc200_e)
+URL: https://atcoder.jp/contests/abc200/tasks/abc200_e
 
 $$
 0 \le i,j,k < N \tag{1}
@@ -62,7 +62,7 @@ K' = K-\sum_{l=1}^{l^{\ast}-1}{\rm oracle_1}(l)
 $$
 以上の操作を行うアルゴリズムをPythonで書くと次のようになる。
 
-```python
+```python linenums="1"
 for l in range(0, 3*N-2):
     d = oracle1(l)
     if K-d <= 0:
@@ -71,12 +71,13 @@ for l in range(0, 3*N-2):
 ```
 
 実際に${\rm oracle_2}(l, i)$を用いて階層$l^\ast$の中で$K'$番目の3つ組の$i$の値$i^\ast$を計算するのは以下のようになる。
+
 $$
 \sum_{i=1}^{i^{\ast}-1}{\rm oracle_2}(l, i) < K' \le \sum_{i=1}^{i^{\ast}}{\rm oracle_2}(l, i) \\
 K'' = K'-\sum_{i=1}^{i^{\ast}-1}{\rm oracle_2}(l, i)
 $$
 
-```python
+```python linenums="6"
 for i in range(0, N):
     d = oracle2(l, i)
     if K-d <= 0:
@@ -96,7 +97,7 @@ k^\ast = l^\ast - i^\ast - j^\ast
 $$
 を計算することで求めたかった$K$番目の解$(i^\ast,j^\ast,k^\ast)$を答えることができる。
 
-```python
+```python linenums="11"
 for j in range(0, N):
     d = oracle3(l, i, j)
     if K-d <= 0:
@@ -113,9 +114,11 @@ for j in range(0, N):
 上記のグラフを動かしてほしい。🔵で示した区間ではピラミッド形になっており、
 各階層$l=0,1,2\cdots$の値は$1,3,6\cdots$と一般項の簡単な三角数$\Sigma(l+1)$であることが分かる。
 
+$$
 \begin{align}
 ※\Sigma(n) = \sum_{i=1}^{n} i = \frac{n(n+1)}{2}
 \end{align}
+$$
 
 🟢で示した区間では逆ピラミッド形になっており、逆順に減っていくため
 三角数の一般項に対して $l \to 3N-3-l$
@@ -131,15 +134,20 @@ $(N,0,0)$のように区間$[0,N)$に収まらない数が出てきてしまう�
 以降は$i$と固定して場合の数を数える。
 $i$が取りうる値はNからlまでであり、$j$が取りうる値は$0$から$l-i$までの$l-i+1$通りである。
 $i,j$が定まればこの範囲で$k$がただ一つに定まるので、求める場合の数は以下のようになる。
+
+$$
 \begin{align}
 \sum_{i=N}^{l} l-i+1
 &= \sum_{i=l}^{N} i-(l+1) \\
 &= \sum_{i=1}^{N-l+1} i \\
 &= \Sigma(l+1-N)
 \end{align}
+$$
 
 以上の🔵🔴🟢の3つの区間の結果をまとめることで
 ${\rm oracle_1}(l)$は以下のように定まった。
+
+$$
 \begin{align}
 {\rm oracle_1}(l) &= \begin{cases}
 \Sigma(l+1)                & 0 \le l < N \\
@@ -148,6 +156,7 @@ ${\rm oracle_1}(l)$は以下のように定まった。
 0                          & (otherwise)
 \end{cases}
 \end{align}
+$$
 
 ### ${\rm oracle_2}(l, i)$
 $l,i$の値が与えられているとき、$j$を定めれば対応する$k$はただ$1$つに定まる。
@@ -156,31 +165,60 @@ $l,i$の値が与えられているとき、$j$を定めれば対応する$k$は
 $[L, U]=\varnothing$となる場合、
 $L$と$U$の求め方によっては$U-L<0$となりうる為である。
 実際に上限$U$を求める。$k=0$の時、最大値$j=l-i$を取る。ただし、$N-1$を上回ることはないので、
+
+$$
 \begin{align}
 U = \min(N-1, l-i)
 \end{align}
+$$
+
 となる。
 また、下限$L$を求める。$k=N-1$の時、最小値$j=l-i-(N-1)$を取る。ただし、$0$を下回ることはないので、
+$$
 \begin{align}
 L = \max(0, l-i-(N-1))
 \end{align}
+$$
+
 以上の結果をまとめることで
 ${\rm oracle_2}(l, i)$は以下のように定まった。
+
+$$
 \begin{align}
 {\rm oracle_2}(l, i) = \max(0, \min(N-1, l-i)-\max(0, l-i-(N-1))+1))
 \end{align}
+$$
 
 ### ${\rm oracle_3}(l, i, j)$
 後は簡単である、与えられた$l,i,j$から$k=l-i-j$がただ$1$つ定まるため、
 $k$が区間$[0,N)$に収まっているかをチェックし、収まっているなら$1$個、
 収まっていなければ$0$個を答えればよい。
 
+$$
 \begin{align}
 {\rm oracle_3}(l, i, j) = \begin{cases}
 1 & 0 \le l-i-j < N \\
 0 & (otherwise) \\
 \end{cases}
 \end{align}
+$$
+
+## 関連する話題
+
+今回の問題は**K番目に小さい数を求める**という典型問題の一つで、青diff程度の難易度であったが、
+
+[<span style="display: inline-block; border-radius: 50%; border-style: solid;border-width: 3px; margin-right: 5px; vertical-align: initial; height: 36px; width: 36px;border-color: #0000FF; background: linear-gradient(to top, #0000FF 0%, #0000FF 88.75%, rgba(0, 0, 0, 0) 88.75%, rgba(0, 0, 0, 0) 100%); "></span> ABC200-E Patisserie ABC 2](https://atcoder.jp/contests/abc200/tasks/abc200_e)
+
+同様の考え方で解ける。緑diffの練習問題として次の問題がある。
+
+[<span style="display: inline-block; border-radius: 50%; border-style: solid;border-width: 3px; margin-right: 5px; vertical-align: initial; height: 36px; width: 36px;border-color: #008000; background: linear-gradient(to top, #008000 0%, #008000 2%, rgba(0, 0, 0, 0) 2%, rgba(0, 0, 0, 0) 100%); "></span> ABC061-C Big Array](https://atcoder.jp/contests/abc061/tasks/abc061_c)
+
+ABC200の節目を記念してABC100のオマージュ問題として出題されたようだ。
+
+[<span style="display: inline-block; border-radius: 50%; border-style: solid;border-width: 3px; margin-right: 5px; vertical-align: initial; height: 36px; width: 36px;border-color: #00C0C0; background: linear-gradient(to top, #00C0C0 0%, #00C0C0 32.75%, rgba(0, 0, 0, 0) 32.75%, rgba(0, 0, 0, 0) 100%); "></span> ABC100-D Patisserie ABC](https://atcoder.jp/contests/abc100/tasks/abc100_d)
+
+また、[physics0523による解説](https://atcoder.jp/contests/abc200/editorial/1247)
+によるとボーナス問題としてより大きい制約で解くことが問われる。今回の方針を拡張し、オラクルの累積和を代数的に求めたのちに2分探索を用いることで$O(\log N)$で解ける。
 
 ## 実装
 
@@ -188,7 +226,7 @@ $k$が区間$[0,N)$に収まっているかをチェックし、収まってい�
 
 提出：[https://atcoder.jp/contests/abc200/submissions/22557207](https://atcoder.jp/contests/abc200/submissions/22557207)
 
-```python
+```python linenums="1"
 def sigma(n):
     return n*(n+1)//2
 
@@ -234,7 +272,7 @@ print(i+1, j+1, k+1)
 
 また、グラフの作成に用いたコードも含めておく。
 
-```python
+```python linenums="1"
 import pandas as pd
 import plotly.express as px
 from itertools import product
@@ -279,4 +317,3 @@ fig.update_layout(
 )
 fig.show()
 ```
-

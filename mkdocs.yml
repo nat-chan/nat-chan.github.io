@@ -1,16 +1,50 @@
+site_url: https://nat-chan.github.io
 site_name: ℕ
 
 theme:
   name: material
   language: ja
+
   palette:
-    primary: black
+    - scheme: default
+      primary: black
+      accent: black
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark mode
+    - scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light mode
+
+
+#  icon:
+#    logo: material/cards-spade
+#    logo: material/space-invaders
+#    logo: material/console
+#    logo: material/console-like
+#    logo: material/feather
+#    logo: material/book-open-page-variant
 
 extra:
   search:
     language: jp
+  social:
+    - icon: fontawesome/brands/twitter
+      link: https://twitter.com/mathbbN
+    - icon: fontawesome/brands/github
+      link: https://github.com/nat-chan
+  disqus: ogino-natsuki-tm
 
 markdown_extensions:
+  - pymdownx.magiclink
+  - pymdownx.highlight
+  - pymdownx.inlinehilite
+  - pymdownx.superfences
+  - pymdownx.snippets
+  - pymdownx.tabbed
   - mdx_math
 extra_javascript:
   - https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML

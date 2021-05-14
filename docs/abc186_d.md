@@ -1,7 +1,7 @@
 # ABC186-D Sum of difference
 ###### tags: `atcoder`
 ## 問題文
-URL: [https://atcoder.jp/contests/abc186/tasks/abc186_d](https://atcoder.jp/contests/abc186/tasks/abc186_d)
+URL: https://atcoder.jp/contests/abc186/tasks/abc186_d
 
 $N$個の整数$A_i,\cdots A_N$が与えられます。
 $1\le i< j\le N$を満たす全ての$i,j$の組についての$|A_i-A_j|$の和を求めてください。
@@ -311,7 +311,7 @@ $$
 これで求めたい和の計算量を$O(N^2)$から$O(N)$へと落とすことができた。全体の計算量はquick sortがボトルネックとなり$O(N\log N)$となる。
 ## Python3で実装
 配列の添え字が$0$から始まることと`range(1,N)`が$1,2,\dots,N-1$まで動き$N$を含まないことに注意して実装する。Python3はfor文が遅いのでコンテスト中はPyPy3で提出したが、Python3でも最悪`198 ms`と余裕をもって`AC`で通ることを確認してある。
-```python
+```python linenums="1"
 N = int(input())
 A = list(map(int, input().split()))
 A.sort()
