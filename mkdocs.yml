@@ -46,6 +46,8 @@ markdown_extensions:
   - pymdownx.snippets
   - pymdownx.tabbed
   - mdx_math
+  - attr_list
+  - md_in_html
 extra_javascript:
   - https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML
   - javascripts/extra.js
